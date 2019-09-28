@@ -1,6 +1,6 @@
 import React from "react";
 import { Mutation } from "react-apollo";
-import { repoQuery, addRepoScore } from "../lib/graphQueries";
+import { addRepoScore, repoQuery } from "../lib/graphQueries";
 import { setupModel } from "../lib/predict";
 import { getRepoScore } from "../lib/score";
 
@@ -49,18 +49,9 @@ export default class RepoInput extends React.Component {
           )
         ]
       },
-      update: (store, { data: { insert_repo } }) => {
-        const data = store.readQuery({ query: repoQuery });
-        const insertedRepo = insert_repo.returning;
-        data.repo.splice(0, 0, insertedRepo[0]);
-        store.writeQuery({
-          query: repoQuery,
-          data
-        });
-        this.setState({
-          textboxValue: ""
-        });
-      }
+      refetchQueries: ({ data: insert_repo }) => [
+        { query: repoQuery, variables: { skip: 0 } }
+      ]
     });
   };
 

@@ -30,7 +30,9 @@ export default function RepoList() {
                     <p>Sentiment Description: {a.sentiment_description}</p>
                   </div>
                   <div>
-                    <p>Last Updated at: {a.updated_at}</p>
+                    <p>
+                      Last Updated at: {new Date(a.updated_at).toDateString()}
+                    </p>
                   </div>
                   {a.sentiment_labels.map(label => {
                     <p>{label}</p>;
