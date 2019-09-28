@@ -1,6 +1,7 @@
 import React from "react";
 import { Mutation } from "react-apollo";
 import { repoQuery, addRepoScore } from "../lib/graphQueries";
+import { getSentimentAnalysis } from "../lib/predict";
 
 export default class RepoInput extends React.Component {
   constructor() {
@@ -9,22 +10,28 @@ export default class RepoInput extends React.Component {
       textboxValue: ""
     };
   }
-
+  
   handleTextboxValueChange = e => {
     this.setState({
       textboxValue: e.target.value
     });
   };
 
-  handleTextboxKeyPress = (e, addRepo) => {
+  handleTextboxKeyPress = async (e, addRepo) => {
     if (e.key === "Enter") {
       const repoUrl = this.state.textboxValue;
+      const results = await getSentimentAnalysis(repoUrl)
+      console.log(results)
+      const [...sentiment_output] = results;
       addRepo({
         variables: {
           objects: [
-            {
-              repoUrl: repoUrl
-            }
+            Object.assign(
+              {
+                url: repoUrl
+              },
+              sentiment_output
+            )
           ]
         },
         update: (store, { data: { insert_repo } }) => {

@@ -5,14 +5,16 @@
     "now-build": "next build",
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "prod:start": "next start",
+    "start": "build && prod:start"
   },
   "dependencies": {
     "apollo-boost": "^0.1.16",
     "express": "^4.16.4",
     "graphql": "^14.0.2",
     "isomorphic-unfetch": "^3.0.0",
-    "ml5": "^0.3.1",
+    "@tensorflow-models/toxicity": "^1.2.0",
+    "@tensorflow/tfjs": "^1.2.9",
     "next": "latest",
     "prop-types": "^15.6.2",
     "react": "^16.7.0",
