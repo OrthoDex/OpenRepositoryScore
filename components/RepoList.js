@@ -60,6 +60,16 @@ export default function RepoList() {
                   }}
                 />
               </section>
+              <section>
+                {!repo || repo.length === 0 ? (
+                  <p>
+                    Didn't find your repository? Go ahead and add it to our
+                    database!
+                  </p>
+                ) : (
+                  ""
+                )}
+              </section>
             </div>
             <ul>
               {repo.map((a, index) => (
