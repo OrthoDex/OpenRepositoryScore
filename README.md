@@ -1,83 +1,35 @@
-# nextjs-8-serverless
+# CommunityScoreApp!
 
-> Boilerplate to get started with Next.js 8 Serverless Mode, Hasura GraphQL engine as CMS and postgres as database. 
+# About
+
+Welcome! CommunityScoreApp (title WIP) is a react app that analyzes the sentiment within a GitHub project interaction.
+
+Open Source can get quite overwhelming if one is just starting out, especially choosing where to begin since the list of projects and technology are endless. An uncomfortable first experience could discourage one from contributing again. It would make it easier to choose once you know you are welcome at the community.
+
+Our app helps developers and open source maintainers understand the quality of interactions on their project and community by a “community score”. This score is assigned based on the sentiment analysis of various documents like the Code of Conduct, GitHub Templates, Readme as well as Pull Request and Issue conversations. We hope this encourages everyone in open source to maintain a high standard of community health and help maintainers ensure their project is welcoming as it starts to grow.
+
+# Contributing & Feedback
+
+You are very welcome to open an issue or pull request on this repository! This project is a Work in Progress, and we don't have everything right,
+if you feel we need improvement in any way, please reach out!
+
+# Details
+
+CommunityScoreApp scrapes data from GitHub’s [community APIs](https://developer.github.com/v3/repos/community/) (experimental) as well as Pull request and Issue comments RESTful apis to fetch text data of the code of conduct, readme, pull request and issue comments. This text is then sent to a pre-trained Tensorflow.js Sentiment Analyzer and Toxicity Model built on an LSTM and Universal Sentence Encoder, to obtain sentiment scores on a scale of 1 to 10. The models are fetched from Google Cloud Storage and cached in IndexedDb for better load performance. The sentiment scoring happens entirely in the browser and does not use a backend. These scores are then computed in a weighted average, with a higher weight given to GitHub health percentage. All this data, including “sentiment labels” such as “beginner friendly”, is stored in a Hasura.io backend service. Hasura provides the GraphQL service on top of PostgreSQL that stores the repository analysis data.
+
+We then use [Shields.io](https://shields.io/) to generate repository badges that maintainers can add to their repository.
+
+The main app uses [Next.js](https://nextjs.org/) by Zeit and is deployed on [Zeit Now](https://zeit.co/home) using Serverless SSR. The Hasura backend service is hosted on Heroku.
 
 # Tutorial
 
 - Deploy Postgres and GraphQL Engine on Heroku:
-  
+
   [![Deploy to heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/hasura/graphql-engine-heroku)
 
   Please checkout our [docs](https://docs.hasura.io/1.0/graphql/manual/deployment/index.html) for other deployment methods
 
 - Get the Heroku app URL (say `my-app.herokuapp.com`)
-
-- Create `author` table:
-  
-  Open Hasura console: visit https://my-app.herokuapp.com on a browser  
-  Navigate to `Data` section in the top nav bar and create a table as follows:
-
-  ![Create author table](../../gatsby-postgres-graphql/assets/add_table.jpg)
-
-- Insert sample data into `author` table:
-
-  ![Insert data into author table](../../gatsby-postgres-graphql/assets/insert_data.jpg)
-
-  Verify if the row is inserted successfully
-
-  ![Insert data into author table](../../gatsby-postgres-graphql/assets/browse_rows.jpg)
-
-- Clone this repo:
-  ```bash
-  git clone https://github.com/hasura/graphql-engine
-  cd graphql-engine/community/sample-apps/nextjs-8-serverless/with-apollo
-  ```
-
-- Install npm modules:
-  ```bash
-  npm install
-  ```
-
-- Open `lib/init-apollo.js` and configure Hasura's GraphQL Endpoint as follows:
-
-  ```js
-
-    function create (initialState) {
-      return new ApolloClient({
-        connectToDevTools: process.browser,
-        ssrMode: !process.browser, // Disables forceFetch on the server (so queries are only run once)
-        link: new HttpLink({
-          uri: 'https://myapp.herokuapp.com/v1/graphql', // Server URL (must be absolute)
-          credentials: 'same-origin' // Additional fetch() options like `credentials` or `headers`
-        }),
-        cache: new InMemoryCache().restore(initialState || {})
-      })
-    }
-
-  ```
-Replace the `uri` with your own Hasura GraphQL endpoint.
-
-In this example, we integrate Apollo with Next by wrapping our *pages/_app.js* inside a higher-order component HOC. Using the HOC pattern we're able to pass down a central store of query result data created by Apollo into our React component hierarchy defined inside each page of our Next application.
-
-On initial page load, while on the server and inside `getInitialProps`, we invoke the Apollo method,  [`getDataFromTree`](https://www.apollographql.com/docs/react/features/server-side-rendering.html#getDataFromTree). This method returns a promise; at the point in which the promise resolves, our Apollo Client store is completely initialized.
-
-- We have defined the graphql query in `components/AuthorList.js`. 
-
-    ```graphql
-
-    query author($skip: Int!) {
-        author(offset: $skip, limit: 5) {
-          id
-          name
-        }
-        author_aggregate {
-          aggregate {
-            count
-          }
-        }  
-    }
-
-    ```
 
 - Run the app:
   ```bash
@@ -117,9 +69,6 @@ Deploy it to the cloud with [now](https://zeit.co/now) ([download](https://zeit.
 npm install -g now
 now
 ```
+
 Note: Older versions of now-cli doesn't support serverless mode.
 Once the deployment is successful, you will be able to navigate to pages `/` and `/about`, with each one internally being a lambda function which `now` manages.
-
-
-
-
