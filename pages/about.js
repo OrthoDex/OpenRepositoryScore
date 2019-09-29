@@ -1,18 +1,9 @@
 import App from "../components/App";
 import Header from "../components/Header";
-import Head from "next/head";
 
 export default () => (
   <App>
     <Header />
-    <div>
-      <Head>
-        <script
-          src="https://www.reactriot.com/entries/154-randomstring/vote.js"
-          type="text/javascript"
-        ></script>
-      </Head>
-    </div>
     <article>Vote for Us in React Riot 2019!</article>
     <div id="vote-div"></div>
     <article>
