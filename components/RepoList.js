@@ -35,7 +35,9 @@ export default function RepoList() {
                     <a>{a.name}</a>
                     <a href={a.url}>Link</a>
                     {a.sentiment_labels.map((label, index) => (
-                      <Label color={colorMap[label]}>{label}</Label>
+                      <Label key={index.id} color={colorMap[label]}>
+                        {label}
+                      </Label>
                     ))}
                   </div>
                   <div>
