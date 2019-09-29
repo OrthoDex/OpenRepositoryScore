@@ -56,7 +56,7 @@ export default class RepoInput extends React.Component {
         ]
       },
       refetchQueries: ({ data: insert_repo }) => [
-        { query: repoQuery, variables: { skip: 0 } }
+        { query: repoQuery, variables: { skip: 0, param: "%%" } }
       ]
     });
   };

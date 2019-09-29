@@ -76,12 +76,24 @@ export default function RepoList() {
                       ))}
                     </div>
                     <div>
-                      <img
-                        src={`https://img.shields.io/badge/community--score-${Math.round(
-                          a.sentiment_score,
-                          2
-                        )}-${colorMap[getClass(a.sentiment_score)]}`}
-                      />
+                      <div>
+                        <img
+                          src={`https://img.shields.io/badge/community--score-${Math.round(
+                            a.sentiment_score,
+                            2
+                          )}-${colorMap[getClass(a.sentiment_score)]}`}
+                        />
+                      </div>
+                      <div>
+                        <a
+                          href={`https://img.shields.io/badge/community--score-${Math.round(
+                            a.sentiment_score,
+                            2
+                          )}-${colorMap[getClass(a.sentiment_score)]}`}
+                        >
+                          (Get this badge for your repo!)
+                        </a>
+                      </div>
                     </div>
                     <div>
                       <p>
@@ -204,6 +216,9 @@ export default function RepoList() {
               ul {
                 margin: 0;
                 padding: 0;
+              }
+              p {
+                padding: 10;
               }
               button:before {
                 align-self: center;
