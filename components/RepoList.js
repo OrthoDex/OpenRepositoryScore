@@ -12,6 +12,7 @@ import {
   Input
 } from "semantic-ui-react";
 import isEmpty from "lodash.isempty";
+import { getClass } from "../lib/score";
 
 export const repoQueryVars = {
   skip: 0,
@@ -73,6 +74,14 @@ export default function RepoList() {
                           {label}
                         </Label>
                       ))}
+                    </div>
+                    <div>
+                      <img
+                        src={`https://img.shields.io/badge/community--score-${Math.round(
+                          a.sentiment_score,
+                          2
+                        )}-${colorMap[getClass(a.sentiment_score)]}`}
+                      />
                     </div>
                     <div>
                       <p>
