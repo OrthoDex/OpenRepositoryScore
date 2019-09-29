@@ -1,13 +1,25 @@
-import App from '../components/App'
-import Header from '../components/Header'
+import App from "../components/App";
+import Header from "../components/Header";
+import Head from "next/head";
 
 export default () => (
   <App>
     <Header />
+    <div>
+      <Head>
+        <script
+          src="https://www.reactriot.com/entries/154-randomstring/vote.js"
+          type="text/javascript"
+        ></script>
+      </Head>
+    </div>
+    <article>Vote for Us in React Riot 2019!</article>
+    <div id="vote-div"></div>
     <article>
-      <h1>The Idea Behind This Example</h1>
+      <h1>Open Source Community Sentiment</h1>
+      <h2>Tech Used: </h2>
       <p>
-        <a href='https://www.apollographql.com/client/'>Apollo</a> is a GraphQL
+        <a href="https://www.apollographql.com/client/">Apollo</a> is a GraphQL
         client that allows you to easily query the exact data you need from a
         GraphQL server. In addition to fetching and mutating data, Apollo
         analyzes your queries and their results to construct a client-side cache
@@ -15,10 +27,10 @@ export default () => (
         are run, fetching more results from the server.
       </p>
       <p>
-        In this simple example, we integrate Apollo seamlessly with{' '}
-        <a href='https://github.com/zeit/next.js'>Next</a> by wrapping our pages
-        inside a{' '}
-        <a href='https://facebook.github.io/react/docs/higher-order-components.html'>
+        In this simple example, we integrate Apollo seamlessly with{" "}
+        <a href="https://github.com/zeit/next.js">Next</a> by wrapping our pages
+        inside a{" "}
+        <a href="https://facebook.github.io/react/docs/higher-order-components.html">
           higher-order component (HOC)
         </a>
         . Using the HOC pattern we're able to pass down a central store of query
@@ -27,8 +39,8 @@ export default () => (
       </p>
       <p>
         On initial page load, while on the server and inside getInitialProps, we
-        invoke the Apollo method,{' '}
-        <a href='https://www.apollographql.com/docs/react/features/server-side-rendering.html#getDataFromTree'>
+        invoke the Apollo method,{" "}
+        <a href="https://www.apollographql.com/docs/react/features/server-side-rendering.html#getDataFromTree">
           getDataFromTree
         </a>
         . This method returns a promise; at the point in which the promise
@@ -36,4 +48,4 @@ export default () => (
       </p>
     </article>
   </App>
-)
+);
