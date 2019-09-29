@@ -3,6 +3,7 @@ import { Mutation } from "react-apollo";
 import { addRepoScore, repoQuery } from "../lib/graphQueries";
 import { setupModel } from "../lib/predict";
 import { getRepoScore } from "../lib/score";
+import { Input, Dimmer, Loader, Image, Segment } from "semantic-ui-react";
 
 export default class RepoInput extends React.Component {
   constructor() {
@@ -38,6 +39,10 @@ export default class RepoInput extends React.Component {
       this.state.predictor
     );
     console.debug(sentiment_output);
+    this.setState({
+      processing: false,
+      enableText: true
+    });
     addRepo({
       variables: {
         objects: [
@@ -72,60 +77,23 @@ export default class RepoInput extends React.Component {
           return (
             <div className="parentContainer">
               <section>
-                <input
+                <Input
                   disabled={!this.state.enableText}
                   className="input"
-                  placeholder={
-                    this.state.enableText
-                      ? "Add a repo"
-                      : "Loading Machine Learning Models"
-                  }
+                  placeholder="Add a repo"
                   value={this.state.textboxValue}
                   onChange={this.handleTextboxValueChange}
                   onKeyPress={e => {
                     this.handleTextboxKeyPress(e, addRepo);
                   }}
                 />
+                <Dimmer active={this.state.processing}>
+                  <Loader indeterminate>
+                    Preparing analysis. This might take a while.
+                  </Loader>
+                </Dimmer>
                 <p>{this.state.processing ? "processing your request" : ""}</p>
               </section>
-              <style jsx>{`
-                section {
-                  padding-bottom: 20px;
-                }
-                li {
-                  display: block;
-                  margin-bottom: 10px;
-                }
-                div {
-                  align-items: center;
-                  display: flex;
-                }
-                a {
-                  font-size: 14px;
-                  margin-right: 10px;
-                  text-decoration: none;
-                  padding-bottom: 0;
-                  border: 0;
-                }
-                span {
-                  font-size: 14px;
-                  margin-right: 5px;
-                }
-                ul {
-                  margin: 0;
-                  padding: 0;
-                }
-                input:before {
-                  align-self: center;
-                  border-style: solid;
-                  border-width: 6px 4px 0 4px;
-                  border-color: #ffffff transparent transparent transparent;
-                  content: "";
-                  height: 0;
-                  margin-right: 5px;
-                  width: 0;
-                }
-              `}</style>
               <br />
             </div>
           );
