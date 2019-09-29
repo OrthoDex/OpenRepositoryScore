@@ -1,8 +1,20 @@
 import { Query } from "react-apollo";
 import { repoQuery } from "../lib/graphQueries";
+import { Icon, Label } from "semantic-ui-react";
 
 export const repoQueryVars = {
   skip: 0
+};
+
+const colorMap = {
+  //UGH
+  "really bad": "red",
+  bad: "orange",
+  poor: "yellow",
+  okay: "violet",
+  good: "blue",
+  great: "green",
+  "beginner friendly": "green"
 };
 
 export default function RepoList() {
@@ -22,6 +34,9 @@ export default function RepoList() {
                     <span>{index + 1}. </span>
                     <a>{a.name}</a>
                     <a href={a.url}>Link</a>
+                    {a.sentiment_labels.map((label, index) => (
+                      <Label color={colorMap[label]}>{label}</Label>
+                    ))}
                   </div>
                   <div>
                     <p>Sentiment Score: {a.sentiment_score}</p>
@@ -34,9 +49,6 @@ export default function RepoList() {
                       Last Updated at: {new Date(a.updated_at).toDateString()}
                     </p>
                   </div>
-                  {a.sentiment_labels.map(label => {
-                    <p>{label}</p>;
-                  })}
                 </li>
               ))}
             </ul>

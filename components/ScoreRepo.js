@@ -41,7 +41,8 @@ export default class RepoInput extends React.Component {
     console.debug(sentiment_output);
     this.setState({
       processing: false,
-      enableText: true
+      enableText: true,
+      textboxValue: ""
     });
     addRepo({
       variables: {
