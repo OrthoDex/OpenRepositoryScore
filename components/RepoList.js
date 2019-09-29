@@ -8,12 +8,14 @@ import {
   Item,
   Modal,
   Container,
-  Divider
+  Divider,
+  Input
 } from "semantic-ui-react";
 import isEmpty from "lodash.isempty";
 
 export const repoQueryVars = {
-  skip: 0
+  skip: 0,
+  param: "%%"
 };
 
 const colorMap = {
@@ -30,13 +32,34 @@ const colorMap = {
 export default function RepoList() {
   return (
     <Query query={repoQuery} variables={repoQueryVars}>
-      {({ loading, error, data: { repo, repo_aggregate }, fetchMore }) => {
+      {({
+        loading,
+        error,
+        data: { repo, repo_aggregate },
+        fetchMore,
+        refetch
+      }) => {
         if (error) return <ErrorMessage message="Error loading repos." />;
         if (loading) return <div>Loading</div>;
 
         const areMorerepos = repo.length < repo_aggregate.aggregate.count;
         return (
           <section>
+            <div>
+              <section>
+                <Input
+                  className="input"
+                  icon="search"
+                  placeholder="search repo"
+                  onKeyPress={e => {
+                    if (e.key === "Enter") {
+                      repoQueryVars.param = `%${e.target.value}%`;
+                      refetch(repoQueryVars);
+                    }
+                  }}
+                />
+              </section>
+            </div>
             <ul>
               {repo.map((a, index) => (
                 <section>
@@ -58,7 +81,7 @@ export default function RepoList() {
                           icon="star"
                           defaultRating={a.sentiment_score}
                           maxRating={10}
-                          disabled="true"
+                          disabled
                         />
                       </p>
                     </div>

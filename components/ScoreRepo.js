@@ -3,7 +3,7 @@ import { Mutation } from "react-apollo";
 import { addRepoScore, repoQuery } from "../lib/graphQueries";
 import { setupModel } from "../lib/predict";
 import { getRepoScore } from "../lib/score";
-import { Input, Dimmer, Loader, Image, Segment } from "semantic-ui-react";
+import { Input, Dimmer, Loader } from "semantic-ui-react";
 
 export default class RepoInput extends React.Component {
   constructor() {
